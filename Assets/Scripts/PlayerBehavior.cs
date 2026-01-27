@@ -13,7 +13,7 @@ public class PlayerBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Keyboard.current.leftArrowKey.isPressedThisFrame)
+        if (Keyboard.current.leftArrowKey.wasPressedThisFrame)
         {
             Vector3 newPos = transform.position;
             newPos.x = newPos.x - speed;

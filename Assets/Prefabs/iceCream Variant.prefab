@@ -8,6 +8,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3594765573696175318, guid: 0fcef2624d46040b6b7dbefbab9c5ede, type: 3}
+      propertyPath: m_Radius
+      value: 1.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 3594765573696175318, guid: 0fcef2624d46040b6b7dbefbab9c5ede, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3594765573696175318, guid: 0fcef2624d46040b6b7dbefbab9c5ede, type: 3}
+      propertyPath: m_Offset.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5814834673434365658, guid: 0fcef2624d46040b6b7dbefbab9c5ede, type: 3}
       propertyPath: m_Name
       value: iceCream Variant
@@ -72,13 +84,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3594765573696175318, guid: 0fcef2624d46040b6b7dbefbab9c5ede, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 5814834673434365658, guid: 0fcef2624d46040b6b7dbefbab9c5ede, type: 3}
       insertIndex: -1
       addedObject: {fileID: 152850052899481527}
+    - targetCorrespondingSourceObject: {fileID: 5814834673434365658, guid: 0fcef2624d46040b6b7dbefbab9c5ede, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4588545879910309100}
   m_SourcePrefab: {fileID: 100100000, guid: 0fcef2624d46040b6b7dbefbab9c5ede, type: 3}
 --- !u!1 &7383061735970549648 stripped
 GameObject:
@@ -112,3 +128,66 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!60 &4588545879910309100
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7383061735970549648}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2.06, y: 2.06}
+    newSize: {x: 2.06, y: 2.06}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.55078787, y: 0.69659156}
+      - {x: 0.3407879, y: 0.8938582}
+      - {x: 0.16590032, y: 0.8906748}
+      - {x: 0.009909987, y: 0.8977004}
+      - {x: -0.14977427, y: 0.80771637}
+      - {x: -0.27293777, y: 0.57800615}
+      - {x: -0.7488575, y: 0.3838582}
+      - {x: -0.7827554, y: 0.15786421}
+      - {x: -0.81430745, y: -0.016029328}
+      - {x: -0.8889699, y: -0.03749135}
+      - {x: -0.815899, y: -0.3712543}
+      - {x: -0.49385756, y: -0.8972663}
+      - {x: 0.53863376, y: -0.8889705}
+      - {x: 0.89897114, y: -0.087266356}
+      - {x: 0.7745335, y: 0.2427335}
+      - {x: 0.5600958, y: 0.3646627}
+  m_UseDelaunayMesh: 1
