@@ -22,6 +22,11 @@ public class PlayerBehavior : MonoBehaviour
             Vector3 playerPos = transform.position;
             Vector3 treatOffset = new Vector3(0.0f, offy, 0.0f);
             currentTreat.transform.position = playerPos +treatOffset;
+        
+        }
+            else
+        {
+            currentTreat = Instantiate(treat, new Vector3(0.0f, 0.0f, 0.0f, Quaterion.identity));
         }
         //drop treat
         if(Keyboard.current.spaceKey.wasPressedThisFrame)
