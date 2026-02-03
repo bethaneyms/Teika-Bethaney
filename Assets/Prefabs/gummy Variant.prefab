@@ -72,17 +72,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 3594765573696175318, guid: 0fcef2624d46040b6b7dbefbab9c5ede, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 5814834673434365658, guid: 0fcef2624d46040b6b7dbefbab9c5ede, type: 3}
       insertIndex: -1
       addedObject: {fileID: 9065287335792847681}
-    - targetCorrespondingSourceObject: {fileID: 5814834673434365658, guid: 0fcef2624d46040b6b7dbefbab9c5ede, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 324278975714624645}
   m_SourcePrefab: {fileID: 100100000, guid: 0fcef2624d46040b6b7dbefbab9c5ede, type: 3}
 --- !u!1 &8907715841345786970 stripped
 GameObject:
@@ -116,59 +112,3 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!60 &324278975714624645
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8907715841345786970}
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.16, y: 1.16}
-    newSize: {x: 1.16, y: 1.16}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: -0.23209757, y: 0.47416255}
-      - {x: -0.43106544, y: 0.049323305}
-      - {x: -0.45312965, y: -0.34280914}
-      - {x: -0.31256747, y: -0.45246193}
-      - {x: 0.33782268, y: -0.44900757}
-      - {x: 0.45916325, y: -0.34832513}
-      - {x: 0.45761484, y: 0.012638807}
-      - {x: 0.27558488, y: 0.37670884}
-      - {x: 0.2507114, y: 0.47416267}
-  m_UseDelaunayMesh: 1
