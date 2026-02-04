@@ -735,7 +735,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBehavior
   speed: 0.01
-  treat: {fileID: 2784176194567483688, guid: a5eab7a0bb85841e8b104b9b341e05d1, type: 3}
+  currenttreat: {fileID: 2784176194567483688, guid: a5eab7a0bb85841e8b104b9b341e05d1, type: 3}
   treats:
   - {fileID: 2784176194567483688, guid: a5eab7a0bb85841e8b104b9b341e05d1, type: 3}
   - {fileID: 6022130072497308225, guid: c788362b428454053a19c4a320198ba3, type: 3}
