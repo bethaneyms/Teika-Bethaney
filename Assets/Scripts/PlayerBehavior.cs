@@ -19,6 +19,7 @@ public class PlayerBehavior : MonoBehaviour
         //   {
         //     print(numbers[int]);
         //}
+    
     }
 
         // Update is called once per frame
