@@ -10,6 +10,8 @@ public class PlayerBehavior : MonoBehaviour
     public GameObject[] treats;
     public float offY = -0.6f;
     public int[] numbers;
+    public float min;
+    public float max;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -63,6 +65,18 @@ public class PlayerBehavior : MonoBehaviour
 
             Vector3 newPos = transform.position;
             newPos.x = newPos.x + offset;
-            transform.position = newPos;
+
+            //prevent movement to far left
+
+            if (transform.position.x > max){
+                newPos.x = max;            
         }
+            transform.position = newPos;
+        
+            //prevent movement to far left
+            if (transform.position.x < min){
+                newPos.x = min;
+            }
+            transform.position = newPos;
+    }
 }

@@ -12,13 +12,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: cake Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 6747554172708518774, guid: 0fcef2624d46040b6b7dbefbab9c5ede, type: 3}
+      propertyPath: m_GravityScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8224433201985582148, guid: 0fcef2624d46040b6b7dbefbab9c5ede, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.14999998
+      value: -2.8850229
       objectReference: {fileID: 0}
     - target: {fileID: 8224433201985582148, guid: 0fcef2624d46040b6b7dbefbab9c5ede, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.35
+      value: 3.8600001
       objectReference: {fileID: 0}
     - target: {fileID: 8224433201985582148, guid: 0fcef2624d46040b6b7dbefbab9c5ede, type: 3}
       propertyPath: m_LocalPosition.z
