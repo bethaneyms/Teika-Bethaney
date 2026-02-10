@@ -12,6 +12,7 @@ public class PlayerBehavior : MonoBehaviour
     public int[] numbers;
     public float min;
     public float max;
+    public int move;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -19,6 +20,8 @@ public class PlayerBehavior : MonoBehaviour
         //   {
         //     print(numbers[int]);
         //}
+        startTime = 0.0f;
+        move = 0; //means  you can move both ways
     
     }
 
@@ -59,6 +62,11 @@ public class PlayerBehavior : MonoBehaviour
                 offset = -speed;
             }
 
+            bool left = (Keyboard.current.leftArrowKey.isPressed || Keyboard.current.aKey.isPressed) && move != 1;
+            if left == true {
+                 offset = -speed;
+            }
+
             if (Keyboard.current.rightArrowKey.isPressed || Keyboard.current.dKey.isPressed)
             {
                 offset = speed;
@@ -80,4 +88,19 @@ public class PlayerBehavior : MonoBehaviour
             }
             transform.position = newPos;
     }
-}
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+     print(message: "player touched" + other.gameObject.name);
+     if true {
+
+     }
+    
+        }
+         private void OnCollisionEnter2D(Collision2D other)
+    {
+     print(message: "player touched" + other.gameObject.name);
+     if true {
+
+     }
+    }
+
