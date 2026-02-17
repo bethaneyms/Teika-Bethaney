@@ -1,87 +1,95 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerBehavior : MonoBehaviour
-{
-    public float speed = 0.1f;
-    public GameObject currenttreat;
-    public GameObject[] treats;
-    public float offY = -0.6f;
-    public int[] numbers;
-    public float min;
+//whatever bro
+//follow the way the sprites folder to make it easier 
+
+public class PlayerBehavior : MonoBehaviour{
+    public float speed;
+    private GameObject currentTreat;
+    public float offY  = -0.6f;
+    public float min; 
     public float max;
     public int move;
-    public GameObject gameOver;
-    private float startTime; 
 
-    void Start()
-    {
-        startTime = 0.0f;
-        move = 0; 
+    public GameObject[] treats;
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start(){
+
+        move =0; // 0 means you can move both ways
     }
 
-    void Update()
-    {
-        // 1. Handle the "Held" Item
-        if (currenttreat != null)
-        {
+    //int choice =  
+
+    // Update is called once per frame
+    void Update(){
+
+        if(currentTreat != null){
             Vector3 playerPos = transform.position;
             Vector3 treatOffset = new Vector3(0.0f, offY, 0.0f);
-            currenttreat.transform.position = playerPos + treatOffset;
+            currentTreat.transform.position = playerPos + treatOffset;
         }
-        else
-        {
+        else{
             int choice = Random.Range(0, treats.Length);
-            currenttreat = Instantiate(treats[choice], Vector3.zero, Quaternion.identity);
+            currentTreat  = Instantiate(treats[choice], new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity);
         }
 
-        // 2. Drop Logic
-        if (Keyboard.current.spaceKey.wasPressedThisFrame)
-        {
-            Rigidbody2D body = currenttreat.GetComponent<Rigidbody2D>();
-            body.gravityScale = 1.0f;
+        if(Keyboard.current.spaceKey.wasPressedThisFrame){
+            Rigidbody2D body = currentTreat.GetComponent<Rigidbody2D>();
+            body.gravityScale= 1.0f;
 
-            Collider2D col = currenttreat.GetComponent<Collider2D>();
-            if (col != null) col.enabled = true;
+            Collider2D collider  = currentTreat.GetComponent<Collider2D>();
+            collider.enabled = true;
 
-            currenttreat = null;
+            currentTreat = null;
         }
 
-        // 3. Movement Logic
+        //keyboard movement of player
         float offset = 0.0f;
-        
-        // Simplified movement check
-        bool moveLeft = (Keyboard.current.leftArrowKey.isPressed || Keyboard.current.aKey.isPressed) && move != 1;
-        bool moveRight = (Keyboard.current.rightArrowKey.isPressed || Keyboard.current.dKey.isPressed) && move != 2;
-
-        if (moveLeft)
-        {
+        bool left = (Keyboard.current.leftArrowKey.isPressed|| Keyboard.current.aKey.isPressed) && move != 1;
+        if(left == true){
             offset = -speed;
         }
-        else if (moveRight)
-        {
+
+        if(Keyboard.current.rightArrowKey.isPressed|| Keyboard.current.dKey.isPressed){
             offset = speed;
         }
 
         Vector3 newPos = transform.position;
-        newPos.x += offset;
-
-        // 4. Clamping (Boundary Checks)
-        // We clamp the value BEFORE applying it to the transform
-        if (newPos.x > max) {
-            newPos.x = max;            
+        newPos.x = newPos.x + offset;
+        
+        //float startTime = 0.0f;
+        if(transform.position.x > max){
+            //startTime  = Time.time;
+            newPos.x = max;
         }
-        if (newPos.x < min) {
+        transform.position = newPos;
+
+
+        if(transform.position.x < min){
             newPos.x = min;
         }
-
         transform.position = newPos;
+
+
+    }
+    private void OnCollisionEnter2D(Collision2D other){
+    print("you touched " + other.gameObject.name);
+    if (other.gameObject.CompareTag("LB")){
+            move = 1; // cannot move left
+        }
     }
 
-    // Merged the duplicate methods into one
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        Debug.Log("player touched " + other.gameObject.name);
-        // Add logic here if needed
+    private void OnCollisionStay2D(Collision2D other){
+    print("you are touching " + other.gameObject.name);
     }
+
+    private void OnCollisionExit2D(Collision2D other) {
+    print("you stopped " + other.gameObject.name);
+    if (other.gameObject.CompareTag("LB")){
+        move = 0; // can move left again
+        }
+    }
+
+
 }
