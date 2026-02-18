@@ -917,7 +917,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -978,7 +978,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBehavior
   speed: 0.01
-  currenttreat: {fileID: 2784176194567483688, guid: a5eab7a0bb85841e8b104b9b341e05d1, type: 3}
+  offY: -0.6
+  min: -3.2
+  max: 3.6
+  move: 0
   treats:
   - {fileID: 2784176194567483688, guid: a5eab7a0bb85841e8b104b9b341e05d1, type: 3}
   - {fileID: 6022130072497308225, guid: c788362b428454053a19c4a320198ba3, type: 3}
@@ -987,12 +990,6 @@ MonoBehaviour:
   - {fileID: 9116152601661909102, guid: 17a16187b55da40b4a8c2cc2688cfd97, type: 3}
   - {fileID: 7383061735970549648, guid: 9b7a51fe321e74c2b9db0b523f362910, type: 3}
   - {fileID: 2911310224034617400, guid: a71fc779862f845f1a80c22e781722fc, type: 3}
-  offY: -0.6
-  numbers: 
-  min: -3.2
-  max: 3.6
-  move: 0
-  gameOver: {fileID: 0}
 --- !u!212 &865119952
 SpriteRenderer:
   serializedVersion: 2
