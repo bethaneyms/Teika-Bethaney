@@ -14,7 +14,7 @@ public class PlayerBehavior : MonoBehaviour {
     public int total;
     public TMP_Text textField;
     public GameObject[] treats;
-    public GameObject gameOverPanel; // Fixed: Added this so the GameOver method works
+    public GameObject gameOverPanel;
 
     void Start() {
         move = 0;
@@ -27,12 +27,10 @@ public class PlayerBehavior : MonoBehaviour {
             currentTreat.transform.position = playerPos + treatOffset;
         }
         else {
-            // Fixed: This was likely causing the crash. 
-            // We only pick a random treat if the array actually has items.
+
             if (treats.Length > 0) {
                 int choice = Random.Range(0, treats.Length);
                 currentTreat = Instantiate(treats[choice], transform.position, Quaternion.identity);
-                // Important: Disable physics while holding so it doesn't fly away
                 currentTreat.GetComponent<Rigidbody2D>().gravityScale = 0;
                 currentTreat.GetComponent<Collider2D>().enabled = false;
             }
@@ -59,7 +57,6 @@ public class PlayerBehavior : MonoBehaviour {
         transform.position = newPos;
     }
 
-    // ... keeping your OnCollision methods exactly as they were ...
     private void OnCollisionEnter2D(Collision2D other) {
         if (other.gameObject.CompareTag("LB")) move = 1; 
     }
