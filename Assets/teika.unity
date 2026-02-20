@@ -808,7 +808,7 @@ GameObject:
   - component: {fileID: 488011122}
   m_Layer: 0
   m_Name: topBoarder
-  m_TagString: Finish
+  m_TagString: Top
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -960,7 +960,7 @@ GameObject:
   - component: {fileID: 865119951}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -982,8 +982,9 @@ MonoBehaviour:
   min: -3.2
   max: 3.6
   move: 0
+  gameOverPanel: {fileID: 1893022506}
   treats:
-  - {fileID: 2784176194567483688, guid: a5eab7a0bb85841e8b104b9b341e05d1, type: 3}
+  - {fileID: 5814834673434365658, guid: 0fcef2624d46040b6b7dbefbab9c5ede, type: 3}
   - {fileID: 6022130072497308225, guid: c788362b428454053a19c4a320198ba3, type: 3}
   - {fileID: 8907715841345786970, guid: 8ef0e0d9d86834eb88863f36fa49b38a, type: 3}
   - {fileID: 4403133035753727963, guid: fb956d52066ac4941856b7b576dfd554, type: 3}

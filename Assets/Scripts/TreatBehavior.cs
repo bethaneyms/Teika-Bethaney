@@ -1,47 +1,35 @@
 using UnityEngine;
 
 public class TreatBehavior : MonoBehaviour {
-
-    public GameObject[] treats;
     public int treatType;
-    public GameObject gameOverText; 
+    public float timeout = 3.0f;
+    private float timeStart;
 
     void Start() {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null) {
-            treats = player.GetComponent<PlayerBehavior>().treats;
-        }
+        timeStart = Time.time;
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
-        if (other.gameObject.CompareTag("Treat")) {
-            TreatBehavior otherScript = other.gameObject.GetComponent<TreatBehavior>();
-            
-            // Only merge if types match AND we aren't at the last treat
-            if (otherScript.treatType == treatType && treatType < treats.Length - 1) {
-                // ID check prevents double-spawning
-                if (gameObject.GetInstanceID() < other.gameObject.GetInstanceID()) {
-                    int nextIndex = treatType + 1;
-                    Vector3 spawnPos = Vector3.Lerp(transform.position, other.transform.position, 0.5f);
-                    
-                    GameObject newTreat = Instantiate(treats[nextIndex], spawnPos, Quaternion.identity);
-                    newTreat.GetComponent<Collider2D>().enabled = true;
-                    newTreat.GetComponent<Rigidbody2D>().gravityScale = 1.0f;
+        if (other.gameObject.CompareTag("Top")) {
+            timeStart = Time.time;
+        }
+    }
 
-                    Destroy(other.gameObject);
-                    Destroy(gameObject);
+    private void OnCollisionStay2D(Collision2D other) {
+        if (other.gameObject.CompareTag("Top")) {
+            float elapsed = Time.time - timeStart;
+            if (elapsed > timeout) {
+                GameObject player = GameObject.FindGameObjectWithTag("Player");
+                if (player != null) {
+                    player.GetComponent<PlayerBehavior>().GameOver();
                 }
             }
         }
     }
 
-    // This handles the Game Over when they hit the purple bar
-    private void OnTriggerEnter2D(Collider2D other) {
-        if (other.CompareTag("Finish")) {
-            if (gameOverText != null) {
-                gameOverText.SetActive(true);
-                // Time.timeScale = 0; // Uncomment this to freeze the game on lose
-            }
+    private void OnCollisionExit2D(Collision2D other) {
+        if (other.gameObject.CompareTag("Top")) {
+            timeStart = Time.time;
         }
     }
 }
