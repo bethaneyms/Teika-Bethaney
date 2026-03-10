@@ -982,7 +982,9 @@ MonoBehaviour:
   min: -3.2
   max: 3.6
   move: 0
-  gameOverPanel: {fileID: 1893022506}
+  points: 
+  total: 0
+  textField: {fileID: 0}
   treats:
   - {fileID: 5814834673434365658, guid: 0fcef2624d46040b6b7dbefbab9c5ede, type: 3}
   - {fileID: 6022130072497308225, guid: c788362b428454053a19c4a320198ba3, type: 3}
@@ -991,6 +993,7 @@ MonoBehaviour:
   - {fileID: 9116152601661909102, guid: 17a16187b55da40b4a8c2cc2688cfd97, type: 3}
   - {fileID: 7383061735970549648, guid: 9b7a51fe321e74c2b9db0b523f362910, type: 3}
   - {fileID: 2911310224034617400, guid: a71fc779862f845f1a80c22e781722fc, type: 3}
+  gameOverPanel: {fileID: 1893022506}
 --- !u!212 &865119952
 SpriteRenderer:
   serializedVersion: 2
@@ -1453,9 +1456,54 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab6c26f40ff6b4b3fa9bb80f35161336, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TreatBehavior
+  timeout: 0
+  timeStart: 0
   treats: []
   treatType: 0
-  gameOverText: {fileID: 1893022506}
+--- !u!1 &1568768462
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1568768464}
+  - component: {fileID: 1568768463}
+  m_Layer: 0
+  m_Name: Background
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1568768463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1568768462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8502551a39e644345b0ec03438fa96d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BackgroundManager
+--- !u!4 &1568768464
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1568768462}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1634774946 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9116152601661909102, guid: 17a16187b55da40b4a8c2cc2688cfd97, type: 3}
@@ -2477,3 +2525,4 @@ SceneRoots:
   - {fileID: 865119953}
   - {fileID: 461127087}
   - {fileID: 99733370}
+  - {fileID: 1568768464}
