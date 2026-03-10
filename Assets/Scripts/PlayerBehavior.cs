@@ -15,9 +15,11 @@ public class PlayerBehavior : MonoBehaviour {
     public TMP_Text textField;
     public GameObject[] treats;
     public GameObject gameOverPanel;
+    private QueueManager queue;
 
     void Start() {
         move = 0;
+        queue = GameObject.FindGameObjectWithTag("QueueManager").GetComponent<QueueManager>();
     }
 
     void Update() {
@@ -27,9 +29,9 @@ public class PlayerBehavior : MonoBehaviour {
             currentTreat.transform.position = playerPos + treatOffset;
         }
         else {
-
+            int choice = queue.updateQueue();
+            
             if (treats.Length > 0) {
-                int choice = Random.Range(0, treats.Length);
                 currentTreat = Instantiate(treats[choice], transform.position, Quaternion.identity);
                 currentTreat.GetComponent<Rigidbody2D>().gravityScale = 0;
                 currentTreat.GetComponent<Collider2D>().enabled = false;
