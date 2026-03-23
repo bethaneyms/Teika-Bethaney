@@ -7,6 +7,8 @@ TagManager:
   - Treat
   - Player
   - Top
+  - QueueManager
+  - gameOverPanel
   layers:
   - Default
   - TransparentFX

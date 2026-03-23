@@ -3,41 +3,38 @@ using UnityEngine;
 public class BackgroundManager : MonoBehaviour
 {
     public GameObject bckPrefab;
-    public float speed;
+    public float speed = 1f;
+    public float spacing = 16f;
     private GameObject[] bcks;
-    public float pivotPoint;
-    public float scale;
-    
 
     void Start()
     {
-        pivotPoint = scale * 16 * -0.32f;
-        bckPrefab.transform.localScale = new Vector3(scale, scale, scale);
-
         bcks = new GameObject[3];
 
-        for (int i = 0; i < 3; i++) 
+        for (int i = 0; i < 3; i++)
         {
-            float xPos = pivotPoint - (pivotPoint / 2 * i);
-            float yPos = pivotPoint - (pivotPoint / 2 * i);
-            Vector3 position = new Vector3(xPos, yPos, 0.0f);
-
-            bcks[i] = Instantiate(bckPrefab, position, Quaternion.identity);
+            Vector3 pos = new Vector3(i * spacing, 0f, 0f);
+            bcks[i] = Instantiate(bckPrefab, pos, Quaternion.identity);
         }
     }
 
     void Update()
     {
-        for (int i = 0; i < 3; i++) 
+        for (int i = 0; i < bcks.Length; i++)
         {
-            float xPos = bcks[i].transform.position.x + speed * Time.deltaTime;
-            float yPos = bcks[i].transform.position.y + speed * Time.deltaTime;
-            Vector3 position = new Vector3(xPos, yPos);
-            
-            if (bcks[i].transform.position.x < -pivotPoint/2){
-                position = new Vector3(pivotPoint, pivotPoint);
+            bcks[i].transform.position += Vector3.left * speed * Time.deltaTime;
+
+            if (bcks[i].transform.position.x < -spacing)
+            {
+                float rightMostX = bcks[0].transform.position.x;
+                for (int j = 1; j < bcks.Length; j++)
+                {
+                    if (bcks[j].transform.position.x > rightMostX)
+                        rightMostX = bcks[j].transform.position.x;
+                }
+
+                bcks[i].transform.position = new Vector3(rightMostX + spacing, 0f, 0f);
             }
-        bcks[i].transform.position = position;
         }
     }
 }

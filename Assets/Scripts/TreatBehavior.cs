@@ -2,72 +2,98 @@ using UnityEngine;
 
 public class TreatBehavior : MonoBehaviour
 {
-    public float timeout;
-    public float timeStart;
+    public float timeout = 3f;
+    private float timeStart = 0f;
 
     public GameObject[] treats;
     public int treatType;
 
+    private bool isMerging = false;
+    private PlayerBehavior player;
 
-    void Start(){ 
-
-        treats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehavior>().treats;
-
-    } 
-    void Update(){
-
-     }
-
-    public void OnCollisionEnter2D(Collision2D other){
-        if(other.gameObject.CompareTag("fruit")){
-            int otherType = other.gameObject.GetComponent<TreatBehavior>().treatType;
-            if(otherType == treatType &&  treatType < treats.Length -1){
-                //Destroy both thigs and create the merged one
-                if(gameObject.transform.position.x<= other.transform.position.x || 
-                (gameObject.transform.position.x== other.transform.position.x && gameObject.transform.position.y>= other.transform.position.y)){
-                    int choice = treatType+1;
-
-                    
-
-
-
-                    GameObject currenttreat  = Instantiate(treats[choice], Vector3.Lerp(gameObject.transform.position, other.gameObject.transform.position, 0.5f), Quaternion.identity);
-                    currenttreat.GetComponent<Collider2D>().enabled = true;
-                    currenttreat.GetComponent<Rigidbody2D>().gravityScale =1.0f;
-
-
-                   // GetComponent<AudioSource>()
-
-
-                    GameObject.FindGameObjectWithTag("Player").
-                    GetComponent<PlayerBehavior>().updateScore(treatType);
-
-                    Destroy(other.gameObject);
-                    Destroy(gameObject);
-
-                }
-            }
-        }
+    void Start()
+    {
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehavior>();
+        treats = player.treats;
     }
 
-    private void OnTriggerEnter2D(Collider2D other){
-        if (other.gameObject.CompareTag("Top")){
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        if (!other.gameObject.CompareTag("Treat"))
+            return;
+
+        TreatBehavior otherTreat = other.gameObject.GetComponent<TreatBehavior>();
+        if (otherTreat == null)
+            return;
+
+        if (isMerging || otherTreat.isMerging)
+            return;
+
+        if (otherTreat.treatType != treatType)
+            return;
+
+        if (treatType >= treats.Length - 1)
+            return;
+
+        // only one of the two treats handles the merge
+        if (transform.position.x > other.transform.position.x)
+            return;
+
+        isMerging = true;
+        otherTreat.isMerging = true;
+
+        int nextType = treatType + 1;
+        Vector3 mergePos = (transform.position + other.transform.position) / 2f;
+
+        GameObject mergedTreat = Instantiate(treats[nextType], mergePos, Quaternion.identity);
+
+        Rigidbody2D rb = mergedTreat.GetComponent<Rigidbody2D>();
+        if (rb != null)
+        {
+            rb.bodyType = RigidbodyType2D.Dynamic;
+            rb.gravityScale = 1f;
+        }
+
+        Collider2D col = mergedTreat.GetComponent<Collider2D>();
+        if (col != null)
+            col.enabled = true;
+
+        if (player != null)
+            player.updateScore(treatType);
+
+        Destroy(other.gameObject);
+        Destroy(gameObject);
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Top"))
+        {
             timeStart = Time.time;
         }
     }
 
-    private void OnTriggerStay2D(Collider2D other){
-        if (other.gameObject.CompareTag("Top")){
-            float timeThusfar = Time.time - timeStart;
-            if (timeThusfar > timeout){
-                
-                print("game over dude");
+    void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.CompareTag("Top"))
+        {
+            if (timeStart == 0f)
+                timeStart = Time.time;
 
+            float timeSoFar = Time.time - timeStart;
+
+            if (timeSoFar >= timeout)
+            {
+                if (player != null)
+                    player.GameOver();
             }
         }
     }
-    private void OnTriggerExit2D(Collider2D other){
-        if (other.gameObject.CompareTag("Top")){
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Top"))
+        {
             timeStart = 0f;
         }
     }
