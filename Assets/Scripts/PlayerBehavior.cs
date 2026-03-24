@@ -5,8 +5,7 @@ using TMPro;
 public class PlayerBehavior : MonoBehaviour
 {
     public float speed;
-    private GameObject currentTreat;
-    public float offY = -0.6f;
+    public float offY = -1.0f;
     public float min;
     public float max;
     public int move;
@@ -17,7 +16,9 @@ public class PlayerBehavior : MonoBehaviour
     public GameObject[] treats;
     public GameObject gameOverPanel;
 
+    private GameObject currentTreat;
     private QueueManager queue;
+    private bool canSpawnNext = true;
 
     void Start()
     {
@@ -34,18 +35,6 @@ public class PlayerBehavior : MonoBehaviour
 
     void Update()
     {
-        if (currentTreat == null)
-        {
-            SpawnNewTreat();
-        }
-
-        if (Keyboard.current != null &&
-            Keyboard.current.spaceKey.wasPressedThisFrame &&
-            currentTreat != null)
-        {
-            DropTreat();
-        }
-
         float offset = 0.0f;
 
         if (Keyboard.current != null)
@@ -60,66 +49,96 @@ public class PlayerBehavior : MonoBehaviour
         Vector3 newPos = transform.position;
         newPos.x = Mathf.Clamp(newPos.x + offset, min, max);
         transform.position = newPos;
+
+        if (currentTreat != null)
+        {
+            currentTreat.transform.position = transform.position + new Vector3(0f, offY, 0f);
+        }
+
+        if (Keyboard.current != null &&
+            Keyboard.current.spaceKey.wasPressedThisFrame &&
+            currentTreat != null)
+        {
+            DropTreat();
+        }
+
+        if (currentTreat == null && canSpawnNext)
+        {
+            SpawnNewTreat();
+        }
     }
 
-  void SpawnNewTreat()
-{
-    if (queue == null)
+    void SpawnNewTreat()
     {
-        Debug.Log("Queue is null");
-        return;
-    }
+        if (queue == null || treats == null || treats.Length == 0)
+            return;
 
-    if (treats == null || treats.Length == 0)
-    {
-        Debug.Log("No treats assigned");
-        return;
-    }
+        int choice = queue.updateQueue();
+        Debug.Log("Queue chose: " + choice);
 
-    int choice = queue.updateQueue();
-    Debug.Log("Queue chose: " + choice);
+        if (choice < 0 || choice >= treats.Length || treats[choice] == null)
+            return;
 
-    if (choice < 0 || choice >= treats.Length)
-    {
-        Debug.Log("Choice out of range: " + choice);
-        return;
-    }
+        currentTreat = Instantiate(
+            treats[choice],
+            transform.position + new Vector3(0f, offY, 0f),
+            Quaternion.identity
+        );
 
-    currentTreat = Instantiate(treats[choice], transform.position, Quaternion.identity);
-
-    currentTreat.transform.SetParent(transform);
-    currentTreat.transform.localPosition = new Vector3(0f, offY, 0f);
-
-    Rigidbody2D rb = currentTreat.GetComponent<Rigidbody2D>();
-    if (rb != null)
-    {
-        rb.linearVelocity = Vector2.zero;
-        rb.angularVelocity = 0f;
-        rb.gravityScale = 0f;
-        rb.bodyType = RigidbodyType2D.Kinematic;
-    }
-
-    Collider2D col = currentTreat.GetComponent<Collider2D>();
-    if (col != null)
-        col.enabled = false;
-}
-
-    void DropTreat()
-    {
-        currentTreat.transform.SetParent(null);
+        TreatBehavior tb = currentTreat.GetComponent<TreatBehavior>();
+        if (tb != null)
+        {
+            tb.treatType = choice;
+            tb.treats = treats;
+        }
 
         Rigidbody2D rb = currentTreat.GetComponent<Rigidbody2D>();
         if (rb != null)
         {
-            rb.bodyType = RigidbodyType2D.Dynamic;
-            rb.gravityScale = 1f;
+            rb.bodyType = RigidbodyType2D.Kinematic;
+            rb.gravityScale = 0f;
+            rb.linearVelocity = Vector2.zero;
+            rb.angularVelocity = 0f;
+            rb.WakeUp();
         }
 
         Collider2D col = currentTreat.GetComponent<Collider2D>();
         if (col != null)
+            col.enabled = false;
+    }
+
+    void DropTreat()
+    {
+        if (currentTreat == null)
+            return;
+
+        GameObject droppedTreat = currentTreat;
+        currentTreat = null;
+        canSpawnNext = false;
+
+        droppedTreat.transform.position += new Vector3(0f, -0.2f, 0f);
+
+        Rigidbody2D rb = droppedTreat.GetComponent<Rigidbody2D>();
+        if (rb != null)
+        {
+            rb.bodyType = RigidbodyType2D.Dynamic;
+            rb.gravityScale = 1f;
+            rb.linearVelocity = Vector2.zero;
+            rb.angularVelocity = 0f;
+            rb.WakeUp();
+            rb.AddForce(Vector2.down * 2f, ForceMode2D.Impulse);
+        }
+
+        Collider2D col = droppedTreat.GetComponent<Collider2D>();
+        if (col != null)
             col.enabled = true;
 
-        currentTreat = null;
+        Invoke(nameof(AllowNextSpawn), 0.15f);
+    }
+
+    void AllowNextSpawn()
+    {
+        canSpawnNext = true;
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -135,16 +154,17 @@ public class PlayerBehavior : MonoBehaviour
     }
 
     public void GameOver()
-{
-    if (gameOverPanel != null)
-        gameOverPanel.SetActive(true);
+    {
+        if (gameOverPanel != null)
+            gameOverPanel.SetActive(true);
 
-    Time.timeScale = 0;
-}
+        Time.timeScale = 0;
+    }
 
     public void updateScore(int index)
     {
-        total += points[index];
+        if (points != null && index >= 0 && index < points.Length)
+            total += points[index];
 
         if (textField != null)
             textField.SetText("Score: " + total);
