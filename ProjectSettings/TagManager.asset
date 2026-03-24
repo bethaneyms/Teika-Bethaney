@@ -9,6 +9,12 @@ TagManager:
   - Top
   - QueueManager
   - gameOverPanel
+  - MergeSound
+  - Music
+  - DropSound
+  - SuperTreat
+  - SuperSound
+  - Click
   layers:
   - Default
   - TransparentFX

@@ -3,8 +3,18 @@ using UnityEngine.SceneManagement;
 
 public class MenuBehavior : MonoBehaviour
 {
-        public void goToGame(){
-        SceneManager.LoadScene("TeikaGame");
+    public AudioSource clickSound;
+
+    public void PlayGame()
+    {
+        if(clickSound != null)
+            clickSound.Play();
+
+        Invoke("LoadGame", 0.2f);
     }
 
+    void LoadGame()
+    {
+        SceneManager.LoadScene("TeikaGame");
+    }
 }

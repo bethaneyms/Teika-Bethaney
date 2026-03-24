@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class PlayerBehavior : MonoBehaviour
@@ -16,25 +17,43 @@ public class PlayerBehavior : MonoBehaviour
     public GameObject[] treats;
     public GameObject gameOverPanel;
 
+    public GameObject superTreatPrefab;
+    public int superTreatEvery = 10;
+
+    private int dropCount = 0;
+
     private GameObject currentTreat;
     private QueueManager queue;
     private bool canSpawnNext = true;
+
+    private AudioSource dropSource;
 
     void Start()
     {
         move = 0;
         total = 0;
+        Time.timeScale = 1f;
 
         if (textField != null)
             textField.SetText("Score: " + total);
 
+        if (gameOverPanel != null)
+            gameOverPanel.SetActive(false);
+
         GameObject queueObject = GameObject.FindGameObjectWithTag("QueueManager");
         if (queueObject != null)
             queue = queueObject.GetComponent<QueueManager>();
+
+        GameObject dropObject = GameObject.FindGameObjectWithTag("DropSound");
+        if (dropObject != null)
+            dropSource = dropObject.GetComponent<AudioSource>();
     }
 
     void Update()
     {
+        if (Time.timeScale == 0f)
+            return;
+
         float offset = 0.0f;
 
         if (Keyboard.current != null)
@@ -79,8 +98,16 @@ public class PlayerBehavior : MonoBehaviour
         if (choice < 0 || choice >= treats.Length || treats[choice] == null)
             return;
 
+        GameObject prefabToSpawn = treats[choice];
+
+        if (superTreatPrefab != null && dropCount > 0 && dropCount % superTreatEvery == 0)
+        {
+            Debug.Log("SPAWNING SUPER TREAT");
+            prefabToSpawn = superTreatPrefab;
+        }
+
         currentTreat = Instantiate(
-            treats[choice],
+            prefabToSpawn,
             transform.position + new Vector3(0f, offY, 0f),
             Quaternion.identity
         );
@@ -133,6 +160,11 @@ public class PlayerBehavior : MonoBehaviour
         if (col != null)
             col.enabled = true;
 
+        if (dropSource != null && dropSource.clip != null)
+            dropSource.PlayOneShot(dropSource.clip);
+
+        dropCount++;
+
         Invoke(nameof(AllowNextSpawn), 0.15f);
     }
 
@@ -158,7 +190,7 @@ public class PlayerBehavior : MonoBehaviour
         if (gameOverPanel != null)
             gameOverPanel.SetActive(true);
 
-        Time.timeScale = 0;
+        Time.timeScale = 0f;
     }
 
     public void updateScore(int index)
@@ -168,5 +200,25 @@ public class PlayerBehavior : MonoBehaviour
 
         if (textField != null)
             textField.SetText("Score: " + total);
+    }
+
+    public void AddBonusScore(int amount)
+    {
+        total += amount;
+
+        if (textField != null)
+            textField.SetText("Score: " + total);
+    }
+
+    public void RestartGame()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void ExitGame()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("MainMenu");
     }
 }

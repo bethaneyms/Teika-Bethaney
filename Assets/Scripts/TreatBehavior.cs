@@ -10,7 +10,9 @@ public class TreatBehavior : MonoBehaviour
 
     private bool isMerging = false;
     public bool canMerge = true;
+
     private PlayerBehavior player;
+    private AudioSource mergeSource;
 
     void Start()
     {
@@ -20,6 +22,12 @@ public class TreatBehavior : MonoBehaviour
             player = playerObject.GetComponent<PlayerBehavior>();
             if (player != null && treats == null)
                 treats = player.treats;
+        }
+
+        GameObject mergeObject = GameObject.FindGameObjectWithTag("MergeSound");
+        if (mergeObject != null)
+        {
+            mergeSource = mergeObject.GetComponent<AudioSource>();
         }
     }
 
@@ -80,6 +88,11 @@ public class TreatBehavior : MonoBehaviour
         Collider2D col = mergedTreat.GetComponent<Collider2D>();
         if (col != null)
             col.enabled = true;
+
+        if (mergeSource != null && mergeSource.clip != null)
+        {
+            mergeSource.PlayOneShot(mergeSource.clip);
+        }
 
         if (player != null)
             player.updateScore(treatType);
